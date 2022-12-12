@@ -8,6 +8,15 @@ using Dubins;
 using utils;
 using System.Linq;
 
+/*
+Based on:
+https://github.com/jhan15/dubins_path_planning
+-
+Paper: Practical Search Techniques in Path Planning for Autonomous Driving
+https://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf
+*/
+
+
 namespace hybridAStar
 {
 

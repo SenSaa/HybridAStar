@@ -6,6 +6,11 @@ using env;
 using utils;
 using System.Linq;
 
+/*
+Based on:
+https://github.com/jhan15/dubins_path_planning
+*/
+
 namespace Dubins
 {
 
