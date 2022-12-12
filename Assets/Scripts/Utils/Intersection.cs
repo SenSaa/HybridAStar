@@ -62,11 +62,9 @@ namespace utils
 
             if ((amax < bmin) || (bmax < amin))
             {
-                //Debug.Log("separated - True");
                 return true;
             }
 
-            //Debug.Log("separated - False");
             return false;
         }
 
@@ -141,7 +139,6 @@ namespace utils
         // Check polygons overlapping.
         public static bool polygons_overlapping(List<List<double>> polya, List<List<double>> polyb)
         {
-            //polygons = [polya, polyb]
             var polygons = new List<List<List<double>>> { polya, polyb };
 
             foreach (var polygon in polygons)
@@ -149,17 +146,14 @@ namespace utils
                 for (int i=0; i <polygon.Count; i++)
                 {
                     var j = (i + 1) % (polygon.Count);
-                    //edge = [polygon[i], polygon[j]]
                     var edge = new List<List<double>> { polygon[i], polygon[j] };
 
                     if (separated(edge, polya, polyb))
                     {
-                        //Debug.Log("False");
                         return false;
                     }
                 }
             }
-            //Debug.Log("True");
             return true;
         }
 
@@ -185,11 +179,7 @@ namespace utils
                     foreach(var node in nodes)
                     {
                         var v = new List<double>() { node[0] - arc[0], node[1] - arc[1] };
-                        ///var theta = Math.Atan2(v[1], v[0]) % (2 * Math.PI);
                         var theta = Utils.Modulus((Math.Atan2(v[1], v[0])) ,(2 * Math.PI));
-
-                        //Debug.Log(arc.Count);
-                        //if (arc.Count < 5) { continue; }
 
                         if (arc[3] < arc[4] && arc[3] <= theta && theta <= arc[4])
                         {
@@ -225,7 +215,6 @@ namespace utils
                     return false;
                 }
 
-                ///var theta = Math.Atan2(v[1], v[0]) % (2 * Math.PI);
                 var theta = Utils.Modulus( (Math.Atan2(v[1], v[0])) , (2 * Math.PI));
 
                 if (rs[4] < rs[5] && !(rs[4] < theta && theta < rs[5]))
@@ -248,16 +237,6 @@ namespace utils
             // if rect in ringsector
             // if rect intersected with any arc/edge
 
-            /*
-            for (int i = 0; i < rs.Count; i++)
-            {
-
-                Debug.Log("rs " + "[" + i + "]: " + rs[i]);
-            }
-            */
-
-            //arc1 = rs[:3] +rs[-2:];
-            //arc2 = rs[:2] +rs[-3:];
             var rs_2 = new List<double>() { rs[0], rs[1] };
             var rs_3 = new List<double>() { rs[0], rs[1], rs[2] };
             var rs_neg_2 = new List<double>();
@@ -271,40 +250,10 @@ namespace utils
                 rs_neg_3.Add(rs[i]);
             }
 
-            /*
-            var arc1 =
-               from i in
-                    Enumerable.Range(0, Math.Max(rs_3.Count, rs_neg_2.Count))
-               select rs_3.ElementAtOrDefault(i) + rs_neg_2.ElementAtOrDefault(i);
-            var arc2 =
-               from i in
-                    Enumerable.Range(0, Math.Max(rs_2.Count, rs_neg_3.Count))
-               select rs_2.ElementAtOrDefault(i) + rs_neg_3.ElementAtOrDefault(i);
-
-            List<double> arc1List = arc1.ToList();
-            List<double> arc2List = arc2.ToList();
-            */
             rs_3.AddRange(rs_neg_2);
             var arc1List = rs_3;
             rs_2.AddRange(rs_neg_3);
             var arc2List = rs_3;
-
-
-            /*
-            for (int i = 0; i < rs_neg_3.Count; i++)
-            {
-                Debug.Log("rs_neg_3: " + rs_neg_3[i]);
-            }
-            */
-            /*
-            for (int i=0; i < arc1List.Count; i++)
-            {
-                Debug.Log("arc1: " + arc1List[i]);
-            }
-            */
-            //Debug.Log("arc1LstCnt -> " + arc1List.Count);
-            //Debug.Log("arc2LstCnt -> " + arc2List.Count);
-
 
             if (rectangle_in_ringsector(rect, rs))
             {
@@ -328,13 +277,6 @@ namespace utils
                 var p2 = new List<double>() { rs[0] + rs[3] * Math.Cos(rs[4]), rs[1] + rs[3] * Math.Sin(rs[4]) };
                 var p3 = new List<double>() { rs[0] + rs[2] * Math.Cos(rs[5]), rs[1] + rs[2] * Math.Sin(rs[5]) };
                 var p4 = new List<double>() { rs[0] + rs[3] * Math.Cos(rs[5]), rs[1] + rs[3] * Math.Sin(rs[5]) };
-                
-                /*
-                var p1 = new List<double>() { rs[0] + rs[2] * Math.Sin(rs[4]), rs[1] + rs[2] * Math.Cos(rs[4]) };
-                var p2 = new List<double>() { rs[0] + rs[3] * Math.Sin(rs[4]), rs[1] + rs[3] * Math.Cos(rs[4]) };
-                var p3 = new List<double>() { rs[0] + rs[2] * Math.Sin(rs[5]), rs[1] + rs[2] * Math.Cos(rs[5]) };
-                var p4 = new List<double>() { rs[0] + rs[3] * Math.Sin(rs[5]), rs[1] + rs[3] * Math.Cos(rs[5]) };
-                */
 
                 if (line_rectangle_intersected(new List<List<double>>() { p1, p2 }, rect))
                 {
@@ -382,8 +324,6 @@ namespace utils
                 if (minYLinePoint[1] <= intersectionY && intersectionY <= maxYLinePoint[1]
                     && rectMinY <= intersectionY && intersectionY <= rectMaxY)
                 {
-                    ////result = new Vector2((float)rectMaxX, (float)intersectionY);
-
                     return true;
                 }
             }
@@ -397,8 +337,6 @@ namespace utils
                 if (minYLinePoint[1] <= intersectionY && intersectionY <= maxYLinePoint[1]
                     && rectMinY <= intersectionY && intersectionY <= rectMaxY)
                 {
-                    ////result = new Vector2((float)rectMinX, (float)intersectionY);
-
                     return true;
                 }
             }
@@ -412,8 +350,6 @@ namespace utils
                 if (minXLinePoint[0] <= intersectionX && intersectionX <= maxXLinePoint[0]
                     && rectMinX <= intersectionX && intersectionX <= rectMaxX)
                 {
-                    ////result = new Vector2((float)intersectionX, (float)rectMaxY);
-
                     return true;
                 }
             }
@@ -427,8 +363,6 @@ namespace utils
                 if (minXLinePoint[0] <= intersectionX && intersectionX <= maxXLinePoint[0]
                     && rectMinX <= intersectionX && intersectionX <= rectMaxX)
                 {
-                    ////result = new Vector2((float)intersectionX, (float)rectMinY);
-
                     return true;
                 }
             }

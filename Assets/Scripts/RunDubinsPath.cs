@@ -21,45 +21,18 @@ public class RunDubinsPath : MonoBehaviour
         DubinsPath dubins = new DubinsPath(car);
 
         List<DubinsPathParams> solutions = dubins.find_tangents(car.start_pos, car.end_pos);
-        // |\/|
-        /*
-        Debug.Log("solutions_count -> " + solutions.Count);
-        for (int i = 0; i < solutions.Count; i++)
-        {
-            Debug.Log("c1: " + solutions[i].c1[0] + " " + solutions[i].c1[1]);
-            Debug.Log("c2: " + solutions[i].c2[0] + " " + solutions[i].c2[1]);
-            Debug.Log("d: " + solutions[i].d[0] + " " + solutions[i].d[1]);
-            Debug.Log("t1: " + solutions[i].t1[0] + " " + solutions[i].t1[1] + " " + solutions[i].t1[2]);
-            Debug.Log("t2: " + solutions[i].t2[0] + " " + solutions[i].t2[1] + " " + solutions[i].t2[2]);
-            Debug.Log("len: " + solutions[i].len);
-        }
-        */
         var route_cost_safe = dubins.best_tangent(solutions);
-        // |\/|
-        /*
-        for (int i = 0; i < route_cost_safe.Item1.Count; i++)
-        {
-            string route_str = "";
-            for (int j = 0; j < route_cost_safe.Item1.Count; j++)
-            {
-                route_str += route_cost_safe.Item1[i].Item1[j] + "  ";
-            }
-            Debug.Log(route_str + route_cost_safe.Item1[i].Item2 + " " + route_cost_safe.Item1[i].Item3);
-        }
-        */
-        //Debug.Log("cost: " + route_cost_safe.Item2);
 
         if (!route_cost_safe.Item3)
         {
             Debug.Log("No valid dubins path!");
-            return; // *** Uncomment!!!
+            return;
         }
 
         var path_ = car.get_path(car.start_pos, route_cost_safe.Item1);
         Debug.Log(path_.Count);
         
         // * Limit path points!
-        //path = path[::5] + [path[-1]]
         var path = new List<CarState>(); 
         for (int i=0; i < path_.Count; i += 5)
         {

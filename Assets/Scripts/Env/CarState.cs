@@ -8,7 +8,6 @@ namespace env
     {
 
         public List<double> pos;
-        //public List<List<double>> model;
         public List<(List<double>, double, double, double)> model;
 
         public CarState(List<double> pos, List<(List<double>, double, double, double)> model)

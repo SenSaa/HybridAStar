@@ -65,31 +65,7 @@ namespace utils
                 x_ = x - w * Math.Cos(theta) + l * Math.Sin(theta);
                 y_ = y - w * Math.Sin(theta) - l * Math.Cos(theta);
             }
-            
-            /*
-            if (id == 1)
-            {
-                x_ = x + w * Math.Sin(theta) - l * Math.Cos(theta);
-                y_ = y + w * Math.Cos(theta) + l * Math.Sin(theta);
-            }
-            if (id == 2)
-            {
-                x_ = x + w * Math.Sin(theta) + l * Math.Cos(theta);
-                y_ = y + w * Math.Cos(theta) - l * Math.Sin(theta);
-            }
-            if (id == 3)
-            {
-                x_ = x - w * Math.Sin(theta) - l * Math.Cos(theta);
-                y_ = y - w * Math.Cos(theta) + l * Math.Sin(theta);
-            }
-            if (id == 4)
-            {
-                x_ = x - w * Math.Sin(theta) + l * Math.Cos(theta);
-                y_ = y - w * Math.Cos(theta) - l * Math.Sin(theta);
-            }
-            */
 
-            //return (x_, y_);
             return new List<double> { x_, y_ };
         }
 
@@ -130,8 +106,6 @@ namespace utils
         // Round theta to closest discretized value.
         public static double round_theta(double theta, List<double> thetas)
         {
-            //return min(thetas, key=lambda x: abs(x-theta) % (2*pi))
-            ///return Extensions.MinBy(thetas, x => Math.Abs(x - theta) % (2 * Math.PI));
             return Extensions.MinBy(thetas, x => Modulus(Math.Abs(x - theta), (2 * Math.PI)));
         }
 

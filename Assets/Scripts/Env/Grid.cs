@@ -14,10 +14,8 @@ namespace env
         private int n;
         private int m;
         private double cell_dia;
-        //private List<List<int>> grid = new List<List<int>>();
         private int[,] grid;
 
-        //public Grid(env.Environment env, float cell_size = 0.75f)
         public Grid(env.Environment env, float cell_size = 0.5f)
         {
             this.env = env;
@@ -39,7 +37,6 @@ namespace env
                 // Initialise Grid.
                 grid = new int[m,n];
 
-                //self.grid = [[0] * self.m for _ in range(self.n)]
                 for (int i = 0; i < n; i++)
                 {
                     for (int j = 0; j < m; j++)
@@ -56,12 +53,6 @@ namespace env
                     var y1 = this.to_cell_id(new List<double> { (ob.x), (ob.y) })[1];
                     var x2 = this.to_cell_id(new List<double> { (ob.x) + (ob.w), (ob.y) + (ob.h) })[0];
                     var y2 = this.to_cell_id(new List<double> { (ob.x) + (ob.w), (ob.y) + (ob.h) })[1];
-
-                    /*
-                    Debug.Log(ob.x + " - " + ob.y + " - " + ob.w + " - " + ob.h);
-                    Debug.Log((float)ob.x + " - " + (float)ob.y + " - " + (float)ob.w + " - " + (float)ob.h);
-                    Debug.Log("x1 : " + x1 + " , y1 : " + y1 + " , x2 : " + x2 + " , y2 : " + y2);
-                    */
 
                     if ((ob.x + ob.w) % this.cell_size == 0)
                     {
@@ -89,13 +80,6 @@ namespace env
         {
             // Convert point into grid index.
 
-            /*
-            Debug.Log("pt -> " + pt[0] + " , " + pt[1]);
-            Debug.Log("pt[0] / cell_size -> " + pt[0] / cell_size);
-            Debug.Log("(int)(pt[0] / cell_size) -> " + (int)(pt[0] / cell_size));
-            */
-            //Debug.Log("int(pt[0] / self.cell_size) = " + (int)(pt[0] / cell_size) + " | n-1 = " + (n-1) + " | m-1 = " + (m-1));
-
             var x = Mathf.Min((int)(pt[0] / this.cell_size), this.n - 1);
             var y = Mathf.Min((int)(pt[1] / this.cell_size), this.m - 1);
 
@@ -119,7 +103,6 @@ namespace env
                     if (this.grid[x + p.Item1, y + p.Item2] == 0)
                     {
                         nbs.Add(new List<int> { x + p.Item1, y + p.Item2 });
-                        ////Debug.Log("neighbour: " + (x + p.Item1) + " , " + (y + p.Item2));
                     }
                 }
             }

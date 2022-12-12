@@ -33,7 +33,7 @@ namespace hybridAStar
         private Astar astar;
         private double w1, w2, w3, w4, w5;
         private List<double> thetas;
-        // *
+
         public int numberOfIterations;
 
         public HybridAStar(SimpleCar car, env.Grid grid, bool reverse, double unit_theta= Math.PI / 12, double dt= 1e-2, int check_dubins= 1)
@@ -58,8 +58,6 @@ namespace hybridAStar
 
             if (reverse)
             {
-                //self.comb = list(product(self.ml, self.phil))
-                //List<double> ml = this.ml.Cast<double>().ToList(); // x
                 List<double> ml_ = new List<double>();
                 for (int i = 0; i < this.ml.Count; i++)
                 {
@@ -69,7 +67,6 @@ namespace hybridAStar
             }
             else
             {
-                //self.comb = list(product([1], self.phil))
                 this.comb = Utils.Product<double>(new List<double> { 1 }, this.phil);
             }
 
@@ -85,7 +82,6 @@ namespace hybridAStar
 
             this.thetas = Utils.get_discretized_thetas(this.unit_theta);
 
-            // *
             numberOfIterations = 1000;
         }
 
@@ -96,14 +92,10 @@ namespace hybridAStar
             var theta = pos[2];
             var pt = new List<double> { pos[0], pos[1] };
 
-            ///theta = Utils.round_theta(theta % (2 * Math.PI), this.thetas);
             theta = Utils.round_theta(Utils.Modulus(theta, (2 * Math.PI)), this.thetas);
 
             var cell_id = this.grid.to_cell_id(pt);
-            // *
-            //grid_pos = cell_id + [theta]
-            //var grid_pos = new List<double>();
-            //List<double> grid_pos = cell_id.Cast<double>().ToList(); //x
+
             List<double> grid_pos = new List<double>();
             for (int i=0; i < cell_id.Count; i++)
             {
@@ -147,7 +139,6 @@ namespace hybridAStar
                     continue;
                 }
 
-                //if (node.m == 1 && node.m == 1 && m == -1)
                 if (node.m == 1 && m == -1)
                 {
                     continue;
@@ -159,7 +150,6 @@ namespace hybridAStar
                 for (int _=0; _ < this.drive_steps; _++)
                 {
                     pos = this.car.step(pos, phi, m);
-                    // ?!
                     branch.Add((m, new List<double> { pos[0], pos[1] }));
                 }
 
@@ -167,7 +157,6 @@ namespace hybridAStar
                 var pos1 = m ==1 ? node.pos : pos;
                 var pos2 = m == 1 ? pos : node.pos;
                 
-                // *
                 var safe = true;
 
                 if (phi == 0)
@@ -238,7 +227,6 @@ namespace hybridAStar
         {
             // Search best final shot in open set.
 
-            //open_.sort(key = lambda x: x.f, reverse = False);
             open_ = open_.OrderBy(x => x.f).ToList();
 
             int min_Btwn_b_and_open_ = Math.Min(n, open_.Count);
@@ -308,9 +296,7 @@ namespace hybridAStar
             while (open_ != null && count < numberOfIterations)
             {
                 count += 1;
-                //Debug.Log(count);
 
-                //best = min(open_, key = lambda x: x.f)
                 var best = Extensions.MinBy(open_, x => x.f);
 
                 open_.Remove(best);
@@ -331,7 +317,6 @@ namespace hybridAStar
                         best = best_cost_d_route.Item1;
                         cost = best_cost_d_route.Item2;
                         d_route = best_cost_d_route.Item3;
-                        // ?!
                         var route = this.backtracking(best);
                         route.AddRange(d_route);
                         var path = this.car.get_path(this.start, route);
@@ -370,7 +355,6 @@ namespace hybridAStar
                         foreach (var b in p.branches)
                         {
                             var c_pos = new List<double> { c.pos[0], c.pos[1] };
-                            // ?!
                             if (Utils.same_point(b[b.Count-1].Item2, c_pos))
                             {
                                 p.branches.Remove(b);

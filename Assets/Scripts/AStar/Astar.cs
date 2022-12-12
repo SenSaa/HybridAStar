@@ -25,11 +25,8 @@ namespace astar
         {
             this.grid = grid;
             this.start = this.grid.to_cell_id(start);
-            //Debug.Log("this.start -> " + this.start[0] + " , " + this.start[1]);
             table = new List<AstarParams>();
-            // *
             this.route = new List<List<int>>();
-            // ***
             numberOfIterations = 1000;
         }
 
@@ -57,19 +54,11 @@ namespace astar
         }
 
         public double search_path(List<double> goal_)
-        ////private (double,List<List<int>>) search_path(List<int> goal)
         {
             // Search the path by astar.
 
             var goal = this.grid.to_cell_id(goal_);
 
-            // *?!
-            /*
-            if (this.table.Contains(goal))
-            {
-                return this.table[this.table.IndexOf(goal)].g;
-            }
-            */
             for(int i=0; i < table.Count; i++)
             {
                 //
@@ -96,36 +85,24 @@ namespace astar
             while (open_ != null && iteration < numberOfIterations)
             {
                 iteration++;
-                ///Debug.Log(iteration);
 
-                //best = min(open_, key = lambda x: x.f);
                 var best = Extensions.MinBy(open_, x => x.f);
-                ///var best = open_.Aggregate((l, r) => l.f < r.f ? l : r);
-                //Debug.Log(best.cell_id[0] + " , " + best.cell_id[1]);
                 
-                //Debug.Log("-------------------------");
-                //Debug.Log(iteration);
-                //Debug.Log("best.cell_id = " + best.cell_id[0] + " , " + best.cell_id[1]);
-
                 open_.Remove(best);
                 closed_.Add(best);
 
-                //if (best.cell_id == goal)
                 if (best.cell_id[0] == goal[0] && best.cell_id[1] == goal[1])
                 {
-                    //route = this.backtracking(best);
                     // *
                     this.route = this.backtracking(best);
                     this.table.Add(new AstarParams(goal, best.g));
                     return best.g;
-                    ////return (best.g, route);
                 }
 
                 var nbs = this.grid.get_neighbors(best.cell_id);
 
                 foreach (var nb in nbs)
                 {
-                    //Debug.Log(nb[0] + " , " + nb[1]);
                     var child = new AstarNode(nb);
                     child.g = best.g + 1;
                     // -----
@@ -136,21 +113,16 @@ namespace astar
                     // -----
                     child.parent = best;
 
-                    //if (closed_.Contains(child))
                     if(Utils.NodesListContainsNode(closed_, child))
                     {
-                        //Debug.Log("Child Node {" + child.cell_id[0] + " , " + child.cell_id[1] + "} already in closed set!");
                         continue;
                     }
 
-                    //if (!open_.Contains(child))
                     if (!Utils.NodesListContainsNode(open_, child))
                     {
-                        //Debug.Log("Child Node {" + child.cell_id[0] + " , " + child.cell_id[1] + "} not in open set!");
                         open_.Add(child);
                     }
 
-                    //else if (child.g < open_[open_.IndexOf(child)].g)
                     var nodeExists_cost = Utils.CostOfNodeInNodesList(open_, child);
                     var nodeExists = nodeExists_cost.Item1;
                     var cost = nodeExists_cost.Item2;
@@ -158,25 +130,15 @@ namespace astar
                     {
                         if (child.g < cost)
                         {
-                            //Debug.Log("Child Node {" + child.cell_id[0] + " , " + child.cell_id[1] + "} cost update!");
                             open_.Remove(child);
                             open_.Add(child);
                         }
                     }
                 }
 
-                // Debug
-                /*
-                if (iteration == 2)
-                {
-                    break;
-                }
-                */
-
             }
 
             return double.PositiveInfinity;
-            ////return (double.PositiveInfinity, null);
         }
 
     }

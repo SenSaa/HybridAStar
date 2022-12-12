@@ -28,28 +28,19 @@ namespace env
                 new List<double> { this.x + this.w + safe_dis, this.y - safe_dis },
                 new List<double> { this.x + this.w + safe_dis, this.y + this.h + safe_dis },
                 new List<double> { this.x - safe_dis, this.y + this.h + safe_dis }
-            };
-            
-            //this.obs = new List<Obstacle>(); /// **** DELETE THIS LINE!!!!!!
+            };            
         }
 
         // Check a rectangle object is intersected with an obstacle or not.
         public bool rectangle_safe(List<List<double>> rect)
-        {
-            //Debug.Log("Obstacle - rectangle_safe");
-            
-            return !Intersection.polygons_overlapping(obs, rect);
-            
-            //return false; /// **** DELETE THIS LINE!!!!!!
+        {            
+            return !Intersection.polygons_overlapping(obs, rect);            
         }
 
         // Check a ringsector object is intersected with an obstacle or not.
         public bool ringsector_safe(List<double> rs)
         {
-            
-            return !Intersection.rectangle_ringsector_intersected(obs, rs, false);
-            
-            //return false; /// **** DELETE THIS LINE!!!!!!
+            return !Intersection.rectangle_ringsector_intersected(obs, rs, false);            
         }
 
     }

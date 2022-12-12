@@ -11,43 +11,28 @@ namespace env
         public double lx, ly;
         public List<Obstacle> obs = new List<Obstacle>();
 
-        ///public Environment(List<List<double>> obs = null, double lx = 10, double ly = 10)
         public Environment(List<List<double>> obs = null, double lx = 50, double ly = 50)
-        ////public Environment(List<List<double>> obs = null, double lx = 500, double ly = 500)
         {
             this.lx = (float)lx;
             this.ly = (float)ly;
 
-            //Debug.Log(obs.Count);
 
             if (obs != null || obs.Count > 0)
             {
                 foreach(var ob in obs)
                 {
-                    //Debug.Log(ob.Count);
                     this.obs.Add(new Obstacle(ob[0], ob[1], ob[2], ob[3]));
-                    //this.obs = new List<List<double>>() { new List<double>() { ob[0], ob[1], ob[2], ob[3] } };
                 }
             }
             else
             {
                 this.obs = new List<Obstacle>();
-                //this.obs = new List<List<double>>();
             }
         }
 
         // Check rectangle target within the map bounds.
         public bool rectangle_inbounds(List<List<double>> rect, double safe_dis= 0.05)
         {
-            // Debug
-            for (int i=0; i < rect.Count; i++)
-            {
-                for (int j = 0; j < rect[i].Count; j++)
-                {
-                    //Debug.Log("rect_" + i + "_" + j + "_ : " + rect[i][j]);
-                }
-            }
-
             foreach (var v in rect)
             {
                 if (v[0] < safe_dis)
@@ -67,7 +52,6 @@ namespace env
                     return false;
                 }
             }
-            //Debug.Log("True");
             return true;
         }
 
@@ -87,11 +71,8 @@ namespace env
         // Check rectangle target is obstacle-free or not.
         public bool rectangle_obstacle_free(List<List<double>> rect)
         {
-            //Debug.Log("Environment - rectangle_obstacle_free");
-            //Debug.Log(obs.Count);
             foreach (var ob in this.obs)
             {
-                //Debug.Log("Environment - rectangle_obstacle_free");
                 if (!ob.rectangle_safe(rect))
                 {
                     return false;
@@ -120,7 +101,6 @@ namespace env
         {
             if (this.rectangle_inbounds(rect) && this.rectangle_obstacle_free(rect))
             {
-                //Debug.Log("Env - rectangle_safe - True");
                 return true;
             }
             return false;
