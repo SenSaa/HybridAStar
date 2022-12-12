@@ -1,5 +1,5 @@
 # HybridAStar
-Hybrid A Star
+Hybrid A Star in Unity (C#)
 
 
 To simplify Hybrid A*, it is essentially A*, embedded with a vehicle model for node expansions, and Reeds Shepp path for when the path to the goal is obstacle free.
